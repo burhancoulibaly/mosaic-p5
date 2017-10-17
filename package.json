@@ -1,0 +1,17 @@
+{
+  "name": "mosaic-p5",
+  "version": "1.0.0",
+  "description": "App that will draw an image using photos\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dother smaller\u001b[2~\u001b[A\u001b[A\u001b[B\u001b[B\u001b[Ddd\u001b[2~d\u001b[D\u001b[Dddd\u001b[D\u001b[D\u001b[D\u001b[2~\u001b[Dd\u001b[2~ddfd\u001b[D\u001b[Dff\u001br images.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "p5": "*",
+    "express": "*",
+    "bootstrap": "*",
+    "jquery": "*"
+  },
+  "author": "Menekou B. Coulibaly",
+  "license": "ISC"
+}
