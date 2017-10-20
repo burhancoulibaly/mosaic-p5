@@ -17,7 +17,7 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"file3251255366828.jpg");
+  img = loadImage("./images/"+"kanye_west_photo_by_frank_micelotta_getty_images_entertainment_getty_51329049.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
@@ -27,7 +27,7 @@ function setup(){
   console.log(img);
   w = img.width;
   h = img.height;
-  pxSize = (Math.round(w/h))*20;
+  pxSize = (Math.round(w/h))*10;
   canvas = createCanvas(w, h);
   canvas.position(0,0);
 
@@ -93,7 +93,7 @@ function drawMosaic(){
 
       //console.log(deltaE(picLAB,pixLAB));
       if(deltaE(picLAB,pixLAB) < secDiff){
-        console.log("yo");
+        //console.log("yo");
         secDiff = deltaE(picLAB, pixLAB);
         picWithLowDiff = picObjArray[j].image;
       }
