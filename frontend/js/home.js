@@ -17,7 +17,7 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"file000555007525.jpg");
+  img = loadImage("./images/"+"file3251255366828.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
@@ -85,54 +85,16 @@ function drawMosaic(){
     var greenDiff = 255;
     var blueDiff = 255;
     var secDiff = 255;
-
     var picWithLowDiff;
 
     for (var j = 0; j < picObjArray.length; j++) {
-      var pixRed = imgObjArray[i].red;
-      var pixGreen = imgObjArray[i].green;
-      var pixBlue = imgObjArray[i].blue;
-      var pixAlpha = imgObjArray[i].alpha;
+      var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+      var picLAB = rgb2lab([picObjArray[j].aveRed,picObjArray[j].aveGreen,picObjArray[j].aveBlue]);
 
-      var picRed = picObjArray[j].aveRed;
-      var picGreen = picObjArray[j].aveGreen;
-      var picBlue = picObjArray[j].aveBlue;
-      var picAlpha =  picObjArray[j].aveAlpha;
-
-      if(pixRed > pixGreen && pixRed > pixBlue){
-        if(abs(pixRed - picRed) < redDiff){
-          //console.log("red1");
-          if(abs(pixBlue + pixGreen - picBlue + picGreen)<secDiff){
-            //console.log("red2");
-            redDiff = abs(pixRed - picRed);
-            secDiff = abs(pixBlue + pixGreen - picBlue + picGreen);
-            picWithLowDiff = picObjArray[j].image;
-          }
-        }
-      }else if(pixGreen > pixRed && pixGreen > pixBlue){
-        if(abs(pixGreen - picGreen) < greenDiff){
-          //console.log("g1");
-          if(abs(pixRed + pixBlue - picBlue + picRed)<secDiff){
-            //console.log("g2");
-            greenDiff = abs(pixGreen - picGreen);
-            secDiff = abs(pixRed + pixBlue - picBlue + picRed);
-            picWithLowDiff = picObjArray[j].image;
-          }
-        }
-      }else if(pixBlue > pixRed && pixBlue > pixGreen){
-        if(abs(pixBlue - picBlue) < blueDiff){
-          //console.log("b1");
-          //console.log();
-          if(abs(pixRed + pixGreen - picRed + picGreen)<secDiff){
-            //console.log("b2");
-            blueDiff = abs(pixBlue - picBlue);
-            secDiff = abs(pixRed + pixGreen - picRed + picGreen);
-            picWithLowDiff = picObjArray[j].image;
-          }
-        }
-      }else if(Math.sqrt(Math.pow((pixRed - picRed),2) + Math.pow((pixGreen - picGreen),2) + Math.pow((pixBlue - picBlue),2) + Math.pow((pixAlpha - picAlpha),2)) < secDiff){
-        console.log(pixRed,pixGreen,pixBlue);
-        secDiff = abs(pixRed - picRed) + abs(pixGreen - picGreen) + abs(pixBlue - picBlue) + (pixAlpha - picAlpha);
+      //console.log(deltaE(picLAB,pixLAB));
+      if(deltaE(picLAB,pixLAB) < secDiff){
+        console.log("yo");
+        secDiff = deltaE(picLAB, pixLAB);
         picWithLowDiff = picObjArray[j].image;
       }
     }
