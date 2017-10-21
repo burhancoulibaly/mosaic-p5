@@ -2,6 +2,7 @@ var picObjArray = new Array();
 var imgObjArray = new Array();
 var allImages = new Array();
 var imgArray;
+var pixCount = 0;
 
 
 window.onload = function(){
@@ -17,18 +18,40 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"kanye_west_photo_by_frank_micelotta_getty_images_entertainment_getty_51329049.jpg");
+  img = loadImage("./images/"+"file2961261953471.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
 }
 
 function setup(){
-  console.log(img);
+  //console.log(img);
   w = img.width;
   h = img.height;
+  var maxW = 2400;
+  var maxH = 2400;
+  var ratio;
+
+  if(w > maxW){
+    console.log("resizing");
+    ratio = maxW/w;
+    img.resize(w * ratio, h * ratio);
+    w = img.width;
+    h = img.height;
+    console.log(img.width, img.height);
+  }
+
+  if(h > maxH){
+    console.log("resizing");
+    ratio = maxH/h;
+    img.resize(w * ratio, h * ratio);
+    w = img.width;
+    h = img.height;
+    console.log(img.width, img.height);
+  }
+
   pxSize = (Math.round(w/h))*10;
-  canvas = createCanvas(w, h);
+  canvas = createCanvas(w,h);
   canvas.position(0,0);
 
   for (var i = 0; i < allImages.length; i++) {
@@ -36,6 +59,7 @@ function setup(){
     var green = 0;
     var blue = 0;
     var alpha = 0;
+    allImages[i].resize(250,250);
     allImages[i].loadPixels();
 
     for (var j = 0; j < allImages[i].pixels.length; j+=4) {
@@ -73,6 +97,8 @@ function draw(){
     }
     drawMosaic();
   }
+  console.log(img);
+  console.log(pixCount);
   noLoop();
 }
 
@@ -99,6 +125,7 @@ function drawMosaic(){
       }
     }
     //console.log(picWithLowDiff);
+    pixCount += 1;
     image(picWithLowDiff,imgObjArray[i].x,imgObjArray[i].y,pxSize,pxSize);
   }
 }
