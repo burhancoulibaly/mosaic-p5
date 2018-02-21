@@ -24,7 +24,7 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"file8261246814968.jpg");
+  img = loadImage("./images/"+"jorja_smith_js_241016.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
