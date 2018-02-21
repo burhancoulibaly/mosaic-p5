@@ -1,4 +1,10 @@
-var picObjArray = new Array();
+var bluePixArray = new Array();
+var redPixArray = new Array();
+var greenPixArray = new Array();
+var greyPixArray = new Array();
+var lbPixArray = new Array();
+var yelPixArray = new Array();
+var violPixArray = new Array();
 var imgObjArray = new Array();
 var allImages = new Array();
 var imgArray;
@@ -18,7 +24,7 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"file2961261953471.jpg");
+  img = loadImage("./images/"+"file8261246814968.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
@@ -28,8 +34,8 @@ function setup(){
   //console.log(img);
   w = img.width;
   h = img.height;
-  var maxW = 2400;
-  var maxH = 2400;
+  var maxW = 1340;
+  var maxH = 1340;
   var ratio;
 
   if(w > maxW){
@@ -69,13 +75,69 @@ function setup(){
       alpha += allImages[i].pixels[j+3];
     }
 
-    picObjArray.push(picObj = {
-      image:allImages[i],
-      aveRed:Math.round(red/(allImages[i].pixels.length/4)),
-      aveBlue:Math.round(green/(allImages[i].pixels.length/4)),
-      aveGreen:Math.round(blue/(allImages[i].pixels.length/4)),
-      aveAlpha:Math.round(alpha/(allImages[i].pixels.length/4)),
-    })
+    var aveRedC = red/(allImages[i].pixels.length/4);
+    var aveBlueC = blue/(allImages[i].pixels.length/4);
+    var aveGreenC = green/(allImages[i].pixels.length/4);
+    var aveAlphaC = alpha/(allImages[i].pixels.length/4)
+
+    if(aveRedC > aveBlueC && aveRedC > aveGreenC){
+      redPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveGreenC > aveRedC && aveGreenC > aveBlueC){
+      greenPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveBlueC > aveRedC && aveBlueC > aveGreenC){
+      bluePixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveRedC == aveGreenC && aveRedC == aveBlueC){
+      greyPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveRedC >= Math.round(aveGreenC - (aveGreenC*0.08)) || aveRedC <= Math.round(aveGreenC + (aveGreenC*0.08))){
+      yelPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveRedC >= Math.round(aveBlueC - (aveBlueC*0.08)) || aveRedC <= Math.round(aveBlueC + (aveBlueC*0.08))){
+      violPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }else if(aveGreenC >= Math.round(aveBlueC - (aveBlueC*0.08)) || aveGreenC <= Math.round(aveBlueC + (aveBlueC*0.08))){
+      violPixArray.push(picObj = {
+        image:allImages[i],
+        aveRed:Math.round(aveRedC),
+        aveBlue:Math.round(aveBlueC),
+        aveGreen:Math.round(aveGreenC),
+        aveAlpha:Math.round(aveAlphaC),
+      })
+    }
+    
   }
 }
 
@@ -113,17 +175,97 @@ function drawMosaic(){
     var secDiff = 255;
     var picWithLowDiff;
 
-    for (var j = 0; j < picObjArray.length; j++) {
-      var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
-      var picLAB = rgb2lab([picObjArray[j].aveRed,picObjArray[j].aveGreen,picObjArray[j].aveBlue]);
+    
 
-      //console.log(deltaE(picLAB,pixLAB));
-      if(deltaE(picLAB,pixLAB) < secDiff){
-        //console.log("yo");
-        secDiff = deltaE(picLAB, pixLAB);
-        picWithLowDiff = picObjArray[j].image;
+    
+
+      if(imgObjArray[i].red > imgObjArray[i].green && imgObjArray[i].red > imgObjArray[i].blue){
+        for (var j = 0; j < redPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([redPixArray[j].aveRed,redPixArray[j].aveGreen,redPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = redPixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].green > imgObjArray[i].red && imgObjArray[i].green > imgObjArray[i].blue){
+        for (var j = 0; j < greenPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([greenPixArray[j].aveRed,greenPixArray[j].aveGreen,greenPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = greenPixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].blue > imgObjArray[i].red && imgObjArray[i].blue > imgObjArray[i].green){
+        for (var j = 0; j < bluePixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([bluePixArray[j].aveRed,bluePixArray[j].aveGreen,bluePixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = bluePixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].red == imgObjArray[i].green && imgObjArray[i].red == imgObjArray[i].blue){
+        for (var j = 0; j < greyPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([greyPixArray[j].aveRed,greyPixArray[j].aveGreen,greyPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = greyPixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].red >= Math.round(imgObjArray[i].green - (imgObjArray[i].green*0.08)) || imgObjArray[i].red <= Math.round(imgObjArray[i].green + (imgObjArray[i].green*0.08))){
+        for (var j = 0; j < yelPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([yelPixArray[j].aveRed,yelPixArray[j].aveGreen,yelPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = yelPixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].red >= Math.round(imgObjArray[i].blue - (imgObjArray[i].blue*0.08)) || imgObjArray[i].red <= Math.round(imgObjArray[i].blue + (imgObjArray[i].blue*0.08))){
+        for (var j = 0; j < lbPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([lbPixArray[j].aveRed,lbPixArray[j].aveGreen,lbPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = lbPixArray[j].image;
+          }
+        }
+      }else if(imgObjArray[i].green >= Math.round(imgObjArray[i].blue - (imgObjArray[i].blue*0.08)) || imgObjArray[i].green <= Math.round(imgObjArray[i].blue + (imgObjArray[i].blue*0.08))){
+        for (var j = 0; j < violPixArray.length; j++) {
+          var pixLAB = rgb2lab([imgObjArray[i].red,imgObjArray[i].green,imgObjArray[i].blue]);
+          var picLAB = rgb2lab([violPixArray[j].aveRed,violPixArray[j].aveGreen,violPixArray[j].aveBlue]);
+
+            //console.log(deltaE(picLAB,pixLAB));
+          if(deltaE(picLAB,pixLAB) < secDiff){
+            //console.log("yo");
+            secDiff = deltaE(picLAB, pixLAB);
+            picWithLowDiff = violPixArray[j].image;
+          }
+        }
       }
-    }
+
+      
     //console.log(picWithLowDiff);
     pixCount += 1;
     image(picWithLowDiff,imgObjArray[i].x,imgObjArray[i].y,pxSize,pxSize);
