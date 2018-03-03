@@ -20,7 +20,7 @@ window.onload = function(){
 }
 
 function preload() {
-  img = loadImage("./images/"+"CIMG0017.JPG");
+  img = loadImage("./images/"+"file2961261953471.jpg");
   for (var i = 0; i < imgArray.length; i++) {
     allImages[i] = loadImage("./images/"+imgArray[i]);
   }
@@ -30,27 +30,27 @@ function setup(){
   //console.log(img);
   w = img.width;
   h = img.height;
-  var maxW = 2400;
-  var maxH = 2400;
-  var ratio;
+  // var maxW = 2400;
+  // var maxH = 2400;
+  // var ratio;
 
-  if(w > maxW){
-    console.log("resizing");
-    ratio = maxW/w;
-    img.resize(w * ratio, h * ratio);
-    w = img.width;
-    h = img.height;
-    console.log(img.width, img.height);
-  }
+  // if(w > maxW){
+  //   console.log("resizing");
+  //   ratio = maxW/w;
+  //   img.resize(w * ratio, h * ratio);
+  //   w = img.width;
+  //   h = img.height;
+  //   console.log(img.width, img.height);
+  // }
 
-  if(h > maxH){
-    console.log("resizing");
-    ratio = maxH/h;
-    img.resize(w * ratio, h * ratio);
-    w = img.width;
-    h = img.height;
-    console.log(img.width, img.height);
-  }
+  // if(h > maxH){
+  //   console.log("resizing");
+  //   ratio = maxH/h;
+  //   img.resize(w * ratio, h * ratio);
+  //   w = img.width;
+  //   h = img.height;
+  //   console.log(img.width, img.height);
+  // }
 
   pxSize = (Math.round(w/h))*10;
   canvas = createCanvas(w,h);
@@ -77,14 +77,16 @@ function setup(){
 
       
     }
-    var rgbInt = getRGBInt(r,g,b);
 
-    allImgColArr.push(rgbInt);
+    var lab = (rgb2lab([r,g,b]));
+    var labInt = getLABInt(lab[0],lab[1],lab[2]);
 
-    if(imgObjArray[rgbInt] != undefined){
-      imgObjArray[rgbInt].push(r,g,b,allImages[i]);
+    allImgColArr.push(labInt);
+
+    if(imgObjArray[labInt] != undefined){
+      imgObjArray[labInt].push(r,g,b,allImages[i]);
     }else{
-      imgObjArray[rgbInt] = new Array(r,g,b,allImages[i]);
+      imgObjArray[labInt] = new Array(r,g,b,allImages[i]);
     }
     
 
@@ -106,9 +108,10 @@ function draw(){
       g = img.pixels[index + 1];
       b = img.pixels[index + 2];
       
-      var rgbInt = getRGBInt(r,g,b);
+      var lab = (rgb2lab([r,g,b]));
+      var labInt = getLABInt(lab[0],lab[1],lab[2]);
 
-      imgColArr.push(new Array(rgbInt,r,g,b,i,j));
+      imgColArr.push(new Array(labInt,r,g,b,i,j));
 
     }
   }
@@ -119,9 +122,8 @@ function draw(){
   noLoop();
 }
 
-function getRGBInt(r,g,b){
-  return ((65536 * r)+(256*g)+b)
-  
+function getLABInt(r,g,b){
+  return ((65536 * r)+(256*g)+b) 
 }
 
 function binaryIndexOf(searchElement) {
@@ -173,11 +175,11 @@ function drawMosaic(){
       //   secDiff = deltaE(picLAB, pixLAB);
       //   picWithLowDiff = picObjArray[j].image;
       // }
-      console.log(i);
-      console.log(imgColArr[i][0]);
-      var rgbIntMatch = binaryIndexOf(imgColArr[i][0]);
-      console.log(rgbIntMatch);
-      var color = imgObjArray[rgbIntMatch];
+      // console.log(i);
+      // console.log(imgColArr[i][0]);
+      var labIntMatch = binaryIndexOf(imgColArr[i][0]);
+      // console.log(labIntMatch);
+      var color = imgObjArray[labIntMatch];
   
       if(color.length > 4){
 
@@ -188,7 +190,7 @@ function drawMosaic(){
           if(deltaE(imgLAB,imgsLAB) < lowDiff){
             lowDiff = deltaE(picLAB, pixLAB);
             picLowDiff = color[3];
-            console.log(picLowDiff);
+            // console.log(picLowDiff);
           }
         }
       }else{
